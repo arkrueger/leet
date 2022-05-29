@@ -19,7 +19,6 @@ approach:
                 if left has only one element and right is empty, our answer is in left so return it
     
     what if we want to avoid reversing tokens into right?
-        set 
         
 """
 
@@ -57,7 +56,7 @@ class __Solution:
 # two stacks, iterative but we don't reverse tokens
 # T: O(n)
 # S: O(1) note that this is less than the original because we don't copy tokens
-class Solution:
+class __Solution:
     def evalRPN(self, tokens: List[str]) -> int:
         print("running two stacks iterative but we don't reverse tokens")
         if len(tokens) < 2:
@@ -88,44 +87,22 @@ class Solution:
         if op == "*": return a*b
         if op == "/": return trunc(a/b)
 
-"""
 
-# iterative solution (I don't think this is a good strategy, fails test cases)
-# T: O()
-# S: O()
-class __Solution:
-    def evalRPN(self, tokens: List[str]) -> int:
-        if len(tokens) < 2:
-            return tokens[0]
-        ops = ["+", "-", "*", "/"] # operators
+# found in the forum:
+class Solution:
+    def evalRPN(self, tokens):
         stack = []
-        l = r = 0
-        # find the first number-number-operator pattern in the tokens list
-        for i, a in enumerate(tokens):
-            b, c = tokens[i+1], tokens[i+2]
-            if (a not in ops) and (b not in ops) and (c in ops):
-                res = self.compute(a,b,c)
-                l = i-1
-                r = i+3
-                break
-        while l >= 0 or r < len(tokens)-1:
-            if tokens[r] in ops: # then our terms are result and tokens[l]
-                a, b, o = tokens[l], res, tokens[r]
-                l -= 1; r += 1
-            else: # then our terms are result and tokens[r], and our operator is to the right of that
-                a, b, o = res, tokens[r], tokens[r+1]
-                r += 2 # only move r forward, don't move l backward
-            # perform the operation
-            res = self.compute(a, b, o)
-            print(res)
-            
-        return res
-        
-    # helper function to do the math
-    def compute(self, a: str, b: str, op: str) -> int:
-        a, b = int(a), int(b)
-        if op == "+": return a+b
-        if op == "-": return a-b
-        if op == "*": return a*b
-        if op == "/": return trunc(a/b)        
-"""
+        for t in tokens:
+            if t not in "+-*/":
+                stack.append(int(t))
+            else:
+                r, l = stack.pop(), stack.pop()
+                if t == "+":
+                    stack.append(l+r)
+                elif t == "-":
+                    stack.append(l-r)
+                elif t == "*":
+                    stack.append(l*r)
+                else:
+                    stack.append(int(float(l)/r))
+        return stack.pop()
