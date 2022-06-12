@@ -1,3 +1,62 @@
+# did it a second time while reviewing grind75
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+"""
+cleared old code to redo this problem
+see original on github
+
+approach:
+    
+    recursive:
+        base case: node.next is None -> don't recurse, just return current node
+        otherwise, recurse on the current and next node (to link them), store return in root
+        return root
+    
+    iterative:
+        push all list nodes onto a stack
+        store the top of the stack as the new head
+        while the stack is not empty, pop the stack and point the node to the new top of the stack
+        
+"""
+
+# iterative
+# T: O(n) number of nodes in the list
+# S: O(n) for the stack
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head: return None
+        stack = [head]
+        node = head
+        while node and node.next:
+            stack.append(node.next)
+            node = node.next
+        head = stack[-1]
+        while stack:
+            node = stack.pop()
+            node.next = stack[-1] if stack else None
+        return head
+            
+
+# recursive
+# T: O(n) n is number of nodes
+# S: O(n) recursive stack space
+class __Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        def rev(node: ListNode, parent: ListNode) -> ListNode:
+            child = node.next
+            node.next = parent
+            root = rev(child, node) if child else node
+            return root
+        
+        return rev(head, None) if head else None
+        
+        
+
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):
