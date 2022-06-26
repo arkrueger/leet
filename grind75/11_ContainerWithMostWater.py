@@ -52,7 +52,7 @@ approach:
 # two pointers
 # T: O(n) 
 # S: O(1)
-class Solution:
+class __Solution:
     def maxArea(self, height: List[int]) -> int:
         n = len(height)
         i, j = 0, n-1
@@ -66,6 +66,24 @@ class Solution:
             if height[j] > right_edge:
                 right_edge, right_index = height[j], j
             mostWater = max(mostWater, min(left_edge, right_edge)*(right_index - left_index))
+            # choose which pointer to move forwards
+            if left_edge < right_edge:
+                i += 1
+            else:
+                j -= 1
+        return mostWater
+      
+# written more concisely b/c we don't need "scout" pointers
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        n = len(height)
+        i, j = 0, n-1
+        mostWater = 0
+        # calculate the max
+        while i <= j: # i is on the left, j on the right
+            left_edge, right_edge = height[i], height[j]
+            distance = j - i
+            mostWater = max(mostWater, min(left_edge, right_edge)*distance)
             # choose which pointer to move forwards
             if left_edge < right_edge:
                 i += 1
