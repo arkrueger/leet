@@ -1,0 +1,7 @@
+# Write your MySQL query statement below
+
+# clarification - not products that are recyclable and products that are low fat
+# rather, products that are both low fat and recyclable
+# so low_fats: N and recyclable: Y is not a valid result
+
+select product_id from Products where low_fats="Y" and recyclable="Y"
