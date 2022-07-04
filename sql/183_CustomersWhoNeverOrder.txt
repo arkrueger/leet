@@ -1,0 +1,10 @@
+# we have two tables, one for customers and one for orders
+# we want to find all customers that don't order, i.e. all customers that don't have any entries in the order table
+# -> select name from customers and exclude the common ids that appear in both tables
+
+# three ways to do this
+# select name as "Customers" from customers where not exists (select 1 from orders where orders.customerId = customers.id)
+
+# select name as "Customers" from customers left join orders on orders.customerId = customers.id where orders.customerId is null;
+
+# select name as "Customers" from customers where customers.id not in (select customerId from orders);

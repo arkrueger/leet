@@ -1,0 +1,7 @@
+# we want to display all employee ids and bonuses
+# but these are in 2 groups: bonused employees and non-bonused employees
+# can we union two select statements? One statement for non-bonused employees and another for bonused employees
+# or, can we calculate the bonus inline with an if statement?
+
+# inline if
+select employee_id , if(name not like "M%" and mod(employee_id,2)=1, salary, 0) as "bonus" from employees order by employee_id asc
