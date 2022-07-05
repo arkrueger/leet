@@ -1,0 +1,35 @@
+/*
+thinking:
+    we will need:
+        group by product_id
+        
+*/
+
+# found in forum
+select temp.product_id, temp.store, temp.price
+from (
+    select product_id, "store1" as store, store1 as price from products
+    union all
+    select product_id, "store2" as store, store2 as price from products
+    union all
+    select product_id, "store3" as store, store3 as price from products
+) as temp
+where temp.price is not null;
+
+/*
+how it works:
+    
+    first line - select our desired final columns from the temporary table view we created below it
+    from ( etc ) - 3 select statements that produce 3 views that differ by one column name
+        -> store1, store2, store3
+        id  store   price  | id  store   price  | id  store  price
+        0   store1  xyz    | 0   store2  def    | 0   store3  qrs
+        1   ""      abc    |     ""      tuv    |     ""      jgk
+        and so forth...
+        union all on these tables gives us a table with columns:
+        id  store  price
+                    price will be null if the store did not carry that item
+                    store will contain "store1" "store2" or "store3"
+    as temp allows us to reference it in the first line
+    where temp.price is not null allows us to exclude rows 
+*/

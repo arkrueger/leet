@@ -1,0 +1,19 @@
+/*
+thinking:
+    
+    need to join the two tables (employee_id connects the tables)
+    from here, need to gather rows that have either name or salary missing
+        (the question is worded as "or", not sure if there are test cases where both name and salary are gone)
+    
+    clarification: "missing" does not mean that the ID exists in a table but the value is null, it means that the row (id and value) simple do not exist in the table
+    need to exclude the inner join of the two tables
+    
+notes:
+
+    
+*/
+
+select employee_id from employees where employee_id not in (select employee_id from salaries)
+union
+select employee_id from salaries where employee_id not in (select employee_id from employees)
+order by employee_id asc;

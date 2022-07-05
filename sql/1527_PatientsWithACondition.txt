@@ -1,0 +1,9 @@
+/*
+riffing:
+    select 
+    condition like "%DIAB1%"
+
+note: must start with diab1, so we have to exclude cases where diab1 occurs inside a different condition
+*/
+
+select * from patients where conditions like "% DIAB1%" or conditions like "DIAB1%"
