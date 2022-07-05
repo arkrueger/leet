@@ -1,0 +1,26 @@
+/*
+no primary key
+duplicate rows can exist
+
+find the duplicate rows, count them up
+
+output should contain date, number sold, and item sold
+
+*/
+
+select sell_date, count(distinct product) as num_sold, group_concat(distinct product order by product asc) as products
+from activities
+group by sell_date;
+
+/*
+anatomy
+
+select 
+    sell_date -> get sell date
+    count(distinct product) as num_sold -> get all unique product names
+    group_concat(distinct product [order...])
+        [order...] -. order by product asc -> sorts the names of the products within the cell
+    
+    group by sell_date groups the final output by sell date
+
+*/

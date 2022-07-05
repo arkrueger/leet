@@ -1,0 +1,13 @@
+# need to swap salaries for m and f employees
+# not permitted to write select statements, must update in place with a single update statement
+
+# update salary
+set sex = if(sex = 'm', 'f', 'm');
+
+# it's also possible to use
+update salary
+set
+    sex = case sex
+        when 'm' then 'f'
+        else 'm'
+    end;

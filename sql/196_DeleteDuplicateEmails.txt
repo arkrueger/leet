@@ -1,0 +1,19 @@
+# Please write a DELETE statement and DO NOT write a SELECT statement.
+# Write your MySQL query statement below
+
+# we can use the min() function to find the smallest value
+# wait, no we can't
+
+# better approach
+delete p1 from person p1, person p2
+where p1.email = p2.email and p1.id > p2.id
+
+# how does this work?
+
+# the first line selects all columns from the table as p1, while also giving us a secondary reference to compare to (p2)
+# the second line associates duplicate emails (the = conditional) but only those that are greater than a peer (i.e. it will not select the lowest-id email row in a collection of duplicate emails, because it is not larger than any given p2.id where p1.email=p2.email)
+
+# to recap, for each unique email, the where clause:
+#   gets the rows with duplicate emails
+#   excludes the email that is not larger than any one of its peers in this group (i.e. the lowest id row among these duplicate emails)
+# then deletes all of these emails (leaving behind the lowest-id email row)
