@@ -1,0 +1,40 @@
+/*
+
+are there any obvious distinctions?
+    1. root - this is the row with 'null' as parent id
+    2. inner - these are both reference as parents and themselves have parents
+    3. leaf - these are not referenced by any other node
+
+root is easiest to find
+inner might be harder
+    check if it is another node's parent and also has a parent
+leaf 
+    check if it is nobody's parent
+*/
+
+# not the prettiest query
+# select id, "Root" as type from tree where p_id is null
+# union
+# select distinct a.id, "Inner" as type from tree a
+# join tree b
+# where a.id = b.p_id and a.id not in (select id from tree where p_id is null)
+# union
+# select id, "Leaf" as type from tree where id not in (select p_id from tree where p_id is not null union select id as "p_id" from tree where p_id is null)
+# order by id;
+
+# the official solution below
+
+select id, "Root" as type from tree where p_id is null
+union
+select id, "Leaf" as type from tree where
+    id not in (
+        select distinct p_id from tree where p_id is not null
+    ) 
+    and p_id is not null # p_id is not null is another way to say "exclude root"
+union
+select id, "Inner" as type from tree where
+    id in (
+        select distinct p_id from tree where p_id is not null
+    ) 
+    and p_id is not null
+order by id;
